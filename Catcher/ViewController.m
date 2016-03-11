@@ -7,10 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "DetailViewController.h"
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property NSMutableArray *titles;
+@property NSMutableArray *titlesArray;
 @property NSMutableArray *descriptions;
 
 @end
@@ -19,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.titles = [NSMutableArray new];
+    self.titlesArray = [NSMutableArray new];
     self.descriptions = [[NSMutableArray alloc]init];
 
 }
@@ -46,7 +47,7 @@
         
         //get our title and description for our picker
         UITextField *textField1 = alertController.textFields.firstObject;
-        [self.titles addObject:textField1.text];
+        [self.titlesArray addObject:textField1.text];
         [self.descriptions addObject:alertController.textFields.lastObject.text];
         [self.tableView reloadData];
     }];
@@ -64,7 +65,7 @@
 // give us the corresponding row that is reponding to the object.
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"CellID"];
-    cell.textLabel.text = [self.titles objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.titlesArray objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [self.descriptions objectAtIndex:indexPath.row];
     return cell;
     
@@ -74,13 +75,43 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return self.titles.count;
+    return self.titlesArray.count;
 }
+
 
 
 
 - (IBAction)onEditButtonPressed:(UIBarButtonItem *)sender {
+    if (self.editing){
+        self.editing = false;
+        [self.tableView setEditing:false animated:true];
+        sender.style = UIBarButtonItemStylePlain;
+        sender.title = @"Edit";
+    }
+    else {
+        self.editing = true;
+        [self.tableView setEditing:true animated:true];
+        sender.style = UIBarButtonItemStylePlain;
+        sender.title = @"Done";
+    }
+        
 }
+
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    return true;
+    
+}
+
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    NSString *title = [self.titlesArray objectAtIndex:sourceIndexPath.row];
+    [self.titlesArray removeObject:title];
+    [self.titlesArray insertObject:title atIndex:destinationIndexPath.row];
+    NSString *description = [self.descriptions objectAtIndex:sourceIndexPath.row];
+    [self.descriptions removeObject:title];
+    [self.descriptions insertObject:title atIndex:destinationIndexPath.row];
+    
+}
+
 - (IBAction)onAddButtonPressed:(UIBarButtonItem *)sender {
     [self presentEntryAlert];
 }
@@ -93,7 +124,10 @@
     detailVC.titleString = [self.titlesArray objectAtIndex:self.tableView.indexPathForSelectedRow.row];
     detailVC.descriptionString = [self.descriptions objectAtIndex:self.tableView.indexPathForSelectedRow.row];
 }
-
-
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.titlesArray removeObjectAtIndex:indexPath.row];
+    [self.descriptions removeObjectAtIndex:indexPath.row];
+    [self.tableView reloadData];
+}
 
 @end

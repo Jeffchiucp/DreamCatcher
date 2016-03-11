@@ -13,10 +13,23 @@
                         <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="scaleAspectFit" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sleepImage-1" translatesAutoresizingMaskIntoConstraints="NO" id="qLW-KL-R0s">
+                                <rect key="frame" x="180" y="208" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="ISX-c0-8Cs"/>
+                                    <constraint firstAttribute="height" constant="240" id="kZJ-it-a4N"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1405596006" green="0.41292771420000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qLW-KL-R0s" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="188" id="d8W-ha-KEQ"/>
+                            <constraint firstItem="qLW-KL-R0s" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="jJa-ZK-URd"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -24,4 +37,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="sleepImage-1" width="99" height="105"/>
+    </resources>
 </document>
